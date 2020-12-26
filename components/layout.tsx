@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useState } from 'react';
 
 export const siteTitle = 'Ayrton Marcazzo';
 
@@ -28,6 +29,13 @@ export default function Layout({
   children: React.ReactNode;
   home?: boolean;
 }): JSX.Element {
+  const [darkMode, setDarkMode] = useState(true);
+
+  const handleMode = (event) => {
+    event.preventDefault();
+    setDarkMode(!darkMode);
+  };
+
   return (
     <div className="container">
       <Head>
@@ -47,7 +55,14 @@ export default function Layout({
       </Head>
       <header>
         <nav className="is-flex is-justify-content-space-between my-3">
-          <i className="ri-sun-fill" />
+          <button type="button" className="no-style" onClick={handleMode}>
+            {darkMode ? (
+              <i className="ri-sun-fill has-text-white" />
+            ) : (
+              <i className="ri-moon-fill" />
+            )}
+          </button>
+
           <div className="level">
             {navLinks.map(({ href, title, id }) => (
               <p className="level-item has-text-centered ml-5" key={id}>
@@ -67,6 +82,14 @@ export default function Layout({
           </Link>
         </div>
       )}
+
+      <style jsx>{`
+        .no-style {
+          background: transparent;
+          border: none;
+          outline: none;
+        }
+      `}</style>
     </div>
   );
 }
